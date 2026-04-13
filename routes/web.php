@@ -3,5 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return "Halo Hafidz, Selamat Datang di Project Web Pertamamu!";
+    return view('home');
+});
+
+Route::get('/about', function () {
+    return view('about');
 });
