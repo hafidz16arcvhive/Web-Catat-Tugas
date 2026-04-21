@@ -11,12 +11,40 @@
     <div class="card p-4 shadow">
         <h2>Ada Tugas Apa Nih?</h2>
 
+             @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Oops!</strong> Ada kesalahan:
+                    <ul class="mb-0 mt-2">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                {{ session('success') }}
+                </div>
+        @endif
+
+        
         <form action="/tasks" method="POST">
             @csrf
 
-            <input type="text" name="judul" class="form-control mb-3" placeholder="Masukkan Mata Kuliah">
+            <input 
+            type="text" 
+            name="judul" 
+            class="form-control mb-3"
+            placeholder="Masukkan Mata Kuliah"
+            value="{{ old('judul') }}"
+            >
 
-            <textarea name="deskripsi" class="form-control mb-3" placeholder="Deskripsi Tugas"></textarea>
+            <textarea 
+            name="deskripsi" 
+            class="form-control mb-3"
+            placeholder="Masukkan Deskripsi Tugas"
+        >{{ old('deskripsi') }}</textarea>
 
             <button class="btn btn-success">Simpan Task</button>
         </form>
@@ -46,6 +74,12 @@
     </div>
 
 </div>
+    <div class="alert alert-success" id="alert">
+        <script>
+    setTimeout(() => {
+        document.getElementById('alert').style.display = 'none';
+    }, 3000);
+</script>
 
 </body>
 </html>

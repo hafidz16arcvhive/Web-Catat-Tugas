@@ -14,15 +14,20 @@ class TaskController extends Controller
         return view('tasks', compact('tasks'));
     }
 
-    public function store(Request $request)
-    {
-        Task::create([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'judul' => 'required|min:3',
+        'deskripsi' => 'required|min:5'
+    ]);
 
-        return redirect('/tasks');
-    }
+    Task::create([
+        'judul' => $request->judul,
+        'deskripsi' => $request->deskripsi
+    ]);
+
+    return redirect('/tasks')->with('success', 'Task berhasil ditambahkan!');
+}
 
         public function destroy($id)
     {
@@ -30,7 +35,7 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return redirect('/tasks');
+       return redirect('/tasks')->with('success', 'Task berhasil dihapus!');
     }
 
     public function edit($id)
@@ -49,6 +54,6 @@ class TaskController extends Controller
             'deskripsi' => $request->deskripsi
         ]);
 
-        return redirect('/tasks');
+        return redirect('/tasks')->with('success', 'Task berhasil diupdate!');
     }
 }
