@@ -51,28 +51,46 @@
 
         <hr>
 
-<h3>Daftar Task</h3>
+        <h3>Daftar Task</h3>
 
-@foreach ($tasks as $task)
-    <div class="card mt-3 p-3">
-        <h5>{{ $task->judul }}</h5>
+        @foreach ($tasks as $task)
+       <div class="card mt-3 p-3">
+
+        <h5 class="{{ $task->is_done ? 'text-decoration-line-through text-muted' : '' }}">
+            {{ $task->judul }}
+        </h5>
+
         <p>{{ $task->deskripsi }}</p>
 
-        <form action="/tasks/{{ $task->id }}" method="POST">
-            @csrf
-            @method('DELETE')
-    <a href="/tasks/{{ $task->id }}/edit" class="btn btn-warning btn-sm">
-        Edit
-    </a>
-            <button class="btn btn-danger btn-sm" onclick="return confirm('Yakin mau hapus?')">
-                
-                Hapus
-            </button>
-        </form>
-    </div>
-@endforeach
-    </div>
+        <div class="d-flex gap-2 mt-2">
 
+            <!-- STATUS -->
+            <form action="/tasks/{{ $task->id }}/toggle" method="POST" style="display:inline;">
+                @csrf
+                @method('PUT')
+                <button class="btn btn-sm {{ $task->is_done ? 'btn-success' : 'btn-secondary' }}">
+                    {{ $task->is_done ? 'Selesai' : 'Belum' }}
+                </button>
+            </form>
+
+            <!-- EDIT -->
+            <a href="/tasks/{{ $task->id }}/edit" class="btn btn-warning btn-sm">
+                Edit
+            </a>
+
+            <!-- DELETE -->
+            <form action="/tasks/{{ $task->id }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-danger btn-sm">
+                    Hapus
+                </button>
+            </form>
+
+         </div>
+        </div>
+        @endforeach
+    </div>
 </div>
     <div class="alert alert-success" id="alert">
         <script>

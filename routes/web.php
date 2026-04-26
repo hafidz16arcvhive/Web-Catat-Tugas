@@ -16,3 +16,4 @@ Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
 
 Route::get('/tasks/{id}/edit', [TaskController::class, 'edit']);
 Route::put('/tasks/{id}', [TaskController::class, 'update']);
+Route::put('/tasks/{id}/toggle', [TaskController::class, 'toggle']);

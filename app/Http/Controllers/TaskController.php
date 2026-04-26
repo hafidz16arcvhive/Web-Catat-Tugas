@@ -22,9 +22,10 @@ class TaskController extends Controller
     ]);
 
     Task::create([
-        'judul' => $request->judul,
-        'deskripsi' => $request->deskripsi
-    ]);
+    'judul' => $request->judul,
+    'deskripsi' => $request->deskripsi,
+    'is_done' => false
+]);
 
     return redirect('/tasks')->with('success', 'Task berhasil ditambahkan!');
 }
@@ -56,4 +57,14 @@ class TaskController extends Controller
 
         return redirect('/tasks')->with('success', 'Task berhasil diupdate!');
     }
+
+    public function toggle($id)
+{
+    $task = Task::find($id);
+
+    $task->is_done = !$task->is_done;
+    $task->save();
+
+    return redirect('/tasks')->with('success', 'Status task diupdate!');
+}
 }
