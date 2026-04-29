@@ -9,6 +9,7 @@ class Task extends Model
    protected $fillable = [
     'judul',
     'deskripsi',
-    'is_done'
+    'is_done',
+    'deadline'
 ];
 }

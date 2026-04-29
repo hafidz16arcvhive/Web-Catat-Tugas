@@ -24,7 +24,8 @@ class TaskController extends Controller
     Task::create([
     'judul' => $request->judul,
     'deskripsi' => $request->deskripsi,
-    'is_done' => false
+    'is_done' => false,
+    'deadline' => $request->deadline
 ]);
 
     return redirect('/tasks')->with('success', 'Task berhasil ditambahkan!');
@@ -67,4 +68,6 @@ class TaskController extends Controller
 
     return redirect('/tasks')->with('success', 'Status task diupdate!');
 }
+
+
 }
