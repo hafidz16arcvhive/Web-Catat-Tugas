@@ -10,6 +10,7 @@ class Task extends Model
     'judul',
     'deskripsi',
     'is_done',
-    'deadline'
+    'deadline',
+    'user_id'
 ];
 }

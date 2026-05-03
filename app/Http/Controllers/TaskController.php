@@ -4,15 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-        public function index()
-    {
-        $tasks = Task::all();
+       public function index(Request $request)
+{
+    $query = Task::where('user_id', auth()->id());
 
-        return view('tasks', compact('tasks'));
+    // 🔍 SEARCH
+    if ($request->search) {
+        $query->where(function ($q) use ($request) {
+            $q->where('judul', 'like', '%' . $request->search . '%')
+              ->orWhere('deskripsi', 'like', '%' . $request->search . '%');
+        });
     }
+
+    // 🎯 FILTER STATUS
+    if ($request->status === 'done') {
+        $query->where('is_done', true);
+    } elseif ($request->status === 'undone') {
+        $query->where('is_done', false);
+    }
+
+    $tasks = $query->latest()->get();
+
+    // 📊 STATISTIK
+    $total = Task::where('user_id', auth()->id())->count();
+    $done = Task::where('user_id', auth()->id())->where('is_done', true)->count();
+    $undone = Task::where('user_id', auth()->id())->where('is_done', false)->count();
+
+    // 📈 PROGRESS
+    $percent = $total > 0 ? round(($done / $total) * 100) : 0;
+
+    return view('tasks', compact('tasks', 'total', 'done', 'undone', 'percent'));
+}
 
    public function store(Request $request)
 {
@@ -25,7 +51,8 @@ class TaskController extends Controller
     'judul' => $request->judul,
     'deskripsi' => $request->deskripsi,
     'is_done' => false,
-    'deadline' => $request->deadline
+    'deadline' => $request->deadline,
+    'user_id' => Auth::id()
 ]);
 
     return redirect('/tasks')->with('success', 'Task berhasil ditambahkan!');
