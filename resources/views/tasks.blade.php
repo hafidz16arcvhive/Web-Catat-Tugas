@@ -8,36 +8,57 @@
 <body class="bg-gray-100">
 
 <div class="container mt-5">
-    {{ Auth::user()->name }}
+
+        <h1 class="text-3xl font-bold mb-4">
+             👤{{ auth()->user()->name }}
+        </h1>
 
     <div class="card p-4 shadow">
 
-        <div class="grid grid-cols-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+
             <!-- TOTAL -->
-            <div class="bg-white p-4 rounded shadow text-center">
-                <p class="text-gray-500">Total</p>
-                <p class="text-2xl font-bold">{{ $total }}</p>
+            <div class="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-gray-500 text-sm">Total Task</p>
+                <h2 class="text-3xl font-bold mt-2">{{ $total }}</h2>
             </div>
 
             <!-- SELESAI -->
-            <div class="bg-green-100 p-4 rounded shadow text-center">
-                <p class="text-green-700">Selesai</p>
-                <p class="text-2xl font-bold">{{ $done }}</p>
+            <div class="bg-green-100 p-5 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-green-700 text-sm">Selesai</p>
+                <h2 class="text-3xl font-bold mt-2">{{ $done }}</h2>
             </div>
 
             <!-- BELUM -->
-            <div class="bg-yellow-100 p-4 rounded shadow text-center">
-                <p class="text-yellow-700">Belum</p>
-                <p class="text-2xl font-bold">{{ $undone }}</p>
+            <div class="bg-yellow-100 p-5 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-yellow-700 text-sm">Belum</p>
+                <h2 class="text-3xl font-bold mt-2">{{ $undone }}</h2>
             </div>
 
             <!-- PROGRESS -->
-            <div class="bg-blue-100 p-4 rounded shadow text-center">
-                <p class="text-blue-700">Progress</p>
-                <p class="text-2xl font-bold">{{ $percent }}%</p>
+            <div class="bg-blue-100 p-5 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-blue-700 text-sm">Progress</p>
+                <h2 class="text-3xl font-bold mt-2">{{ $percent }}%</h2>
             </div>
 
         </div>
+
+            <div class="bg-white p-4 rounded-2xl shadow mb-6">
+                <p class="mb-2 font-medium">Progress Task</p>
+
+                <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div class="bg-blue-500 h-4 rounded-full transition-all duration-500"
+                        style="width: {{ $percent }}%">
+                    </div>
+                </div>
+
+                <p class="text-sm mt-2 text-gray-500">{{ $percent }}% selesai</p>
+            
+                @if($percent == 100)
+                    <p class="text-green-600 font-semibold mt-2">🎉 Semua task selesai!</p>
+                @endif
+
+            </div>
 
             <br>
 
@@ -83,12 +104,12 @@
                 value="{{ old('deadline') }}"
             >
             
-            <button class="btn btn-success">Simpan Task</button>
+            <button class="btn btn-success mb-3">Simpan Task</button>
         </form>
 
         <hr>
 
-        <h3>Daftar Task</h3>
+        <h3 class="mt-3 mb-3 font-sherif font-medium text-2xl">Daftar Task</h3>
 
         <form method="GET" action="/tasks" class="mb-4 flex gap-2">
 

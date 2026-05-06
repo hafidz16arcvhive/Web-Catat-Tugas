@@ -1,47 +1,50 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class=" bg-white flex items-center justify-center min-h-screen" >
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    <div class="bg-[#0a2540] p-6 rounded-2xl shadow w-full max-w-md border-1 border-gray-200 text-white">
+        
+        <h2 class="text-white text-2xl font-bold text-center mb-6">Login</h2>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <!-- EMAIL -->
+            <div class="mb-4 text-black">
+                <label class="block mb-1"></label>
+                <input type="email" name="email"
+                    class="w-full border p-2 rounded"
+                    required placeholder="Masukkan email">
+            </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <!-- PASSWORD -->
+            <div class="mb-4 text-black">
+                <label class="block mb-1"></label>
+                <input type="password" name="password"
+                    class="w-full border p-2 rounded"
+                    required placeholder="Masukkan password">
+            </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <!-- BUTTON -->
+            <button class="w-full bg-[#2ec4b6] hover:bg-[#7226ff] text-white p-2 rounded transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
+                Login
+            </button>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+        </form>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+        <!-- REGISTER LINK -->
+        <p class="text-center mt-4 text-sm">
+            Belum punya akun?
+            <a href="/register" class="text-[#2ec4b6] hover:underline font-medium">
+                Register
+            </a>
+        </p>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+
+</body>
+</html>
