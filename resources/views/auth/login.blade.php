@@ -1,47 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class=" bg-white flex items-center justify-center min-h-screen" >
 
-    <div class="bg-[#0a2540] p-6 rounded-2xl shadow w-full max-w-md border-1 border-gray-200 text-white">
-        
-        <h2 class="text-white text-2xl font-bold text-center mb-6">Login</h2>
+<body class="bg-gradient-to-b from-gray-100 to-gray-200 min-h-screen flex items-center justify-center px-4">
 
-        <form method="POST" action="{{ route('login') }}">
+    <!-- CARD -->
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-sm p-8">
+
+        <!-- TITLE -->
+        <div class="mb-8 text-center">
+
+            <h1 class="text-4xl font-bold text-gray-800">
+                TaskFlow
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                Welcome back 👋
+            </p>
+
+        </div>
+
+        <!-- ERROR -->
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-600 p-3 rounded-xl mb-5">
+                {{ $errors->first() }}
+            </div>
+        @endif
+
+        <!-- FORM -->
+        <form method="POST" action="{{ route('login') }}" class="space-y-5">
             @csrf
 
             <!-- EMAIL -->
-            <div class="mb-4 text-black">
-                <label class="block mb-1"></label>
-                <input type="email" name="email"
-                    class="w-full border p-2 rounded"
-                    required placeholder="Masukkan email">
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Masukkan email"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    required
+                >
+
             </div>
 
             <!-- PASSWORD -->
-            <div class="mb-4 text-black">
-                <label class="block mb-1"></label>
-                <input type="password" name="password"
-                    class="w-full border p-2 rounded"
-                    required placeholder="Masukkan password">
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Masukkan password"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    required
+                >
+
             </div>
 
             <!-- BUTTON -->
-            <button class="w-full bg-[#2ec4b6] hover:bg-[#7226ff] text-white p-2 rounded transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
+            <button
+                type="submit"
+                class="w-full bg-gray-900 hover:bg-black text-white py-3 rounded-xl transition">
+
                 Login
+
             </button>
 
         </form>
 
-        <!-- REGISTER LINK -->
-        <p class="text-center mt-4 text-sm">
+        <!-- REGISTER -->
+        <p class="text-center text-gray-500 mt-6">
+
             Belum punya akun?
-            <a href="/register" class="text-[#2ec4b6] hover:underline font-medium">
+
+            <a href="/register"
+               class="text-gray-900 font-medium hover:underline">
+
                 Register
+
             </a>
+
         </p>
 
     </div>
