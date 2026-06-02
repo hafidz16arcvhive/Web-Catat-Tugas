@@ -66,13 +66,35 @@
             placeholder="Masukkan Deskripsi Tugas"
          >{{ old('deskripsi') }}</textarea>
 
+            <label class="block mb-1 font-semibold">
+                    Deadline
+            </label>
+
             <input 
                 type="date" 
                 name="deadline" 
                 class="form-control mb-3"
                 value="{{ old('deadline') }}"
             >
-            
+
+             <div class="mt-3 mb-3 font-semibold">
+                <label class="block mb-1">
+                    Share ke User
+                </label>
+
+                <select name="shared_users[]"
+                        multiple
+                        class="border rounded-lg p-2 w-full">
+
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}">
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+
+                </select>
+            </div>
+
             <button class="btn btn-success mb-3">Simpan Task</button>
         </form>
 
@@ -148,6 +170,71 @@
                             🗑
                         </button>
                     </form>
+
+                </div>
+
+                <form action="{{ route('comments.store') }}"
+                    method="POST"
+                    class="mt-3">
+
+                    @csrf
+
+                    <input type="hidden"
+                        name="task_id"
+                        value="{{ $task->id }}">
+
+                    <input type="text"
+                        name="comment"
+                        placeholder="Tulis komentar..."
+                        class="border rounded-lg px-3 py-2 w-80">
+
+                    <button type="submit"
+                            class="mt-2 bg-black text-white px-3 py-2 rounded-lg">
+                        Kirim
+                    </button>
+
+                </form>
+
+                <div class="mt-3 space-y-2">
+
+                   @foreach($task->comments as $comment)
+
+                        <div class="bg-gray-100 p-3 rounded-lg">
+
+                            <div class="flex justify-between items-center">
+
+                                <div>
+                                    <p class="font-semibold text-sm">
+                                        {{ $comment->user->name }}
+                                    </p>
+
+                                    <p class="text-sm text-gray-700">
+                                        {{ $comment->comment }}
+                                    </p>
+                                </div>
+
+                                @if($comment->user_id == auth()->id())
+
+                                <form action="{{ route('comments.destroy', $comment->id) }}"
+                                    method="POST">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="text-red-500 text-sm hover:text-red-700">
+                                        Hapus
+                                    </button>
+
+                                </form>
+
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                     @endforeach
 
                 </div>
 

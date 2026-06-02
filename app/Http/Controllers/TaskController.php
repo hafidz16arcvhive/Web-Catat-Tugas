@@ -10,7 +10,13 @@ class TaskController extends Controller
 {
        public function index(Request $request)
 {
-    $query = Task::where('user_id', auth()->id());
+    $query = Task::with(['comments.user', 'sharedUsers'])
+    ->where(function ($q) {
+        $q->where('user_id', auth()->id())
+          ->orWhereHas('sharedUsers', function ($sub) {
+              $sub->where('users.id', auth()->id());
+          });
+    });
 
     // 🔍 SEARCH
     if ($request->search) {
@@ -36,8 +42,16 @@ class TaskController extends Controller
 
     // 📈 PROGRESS
     $percent = $total > 0 ? round(($done / $total) * 100) : 0;
+    $users = \App\Models\User::where('id', '!=', auth()->id())->get();
 
-    return view('tasks', compact('tasks', 'total', 'done', 'undone', 'percent'));
+    return view('tasks', compact(
+    'tasks',
+    'total',
+    'done',
+    'undone',
+    'percent',
+    'users'
+    ));
 }
 
    public function store(Request $request)
@@ -47,13 +61,17 @@ class TaskController extends Controller
         'deskripsi' => 'required|min:5'
     ]);
 
-    Task::create([
+   $task = Task::create([
     'judul' => $request->judul,
     'deskripsi' => $request->deskripsi,
     'is_done' => false,
     'deadline' => $request->deadline,
     'user_id' => Auth::id()
 ]);
+
+        if ($request->filled('shared_users')) {
+        $task->sharedUsers()->attach($request->shared_users);
+    }
 
     return redirect('/tasks')->with('success', 'Task berhasil ditambahkan!');
 }
